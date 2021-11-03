@@ -1,6 +1,8 @@
 # HanabiGame
 Create a browser-based version of Hanabi
 
+Rules to Hanabi: https://www.ultraboardgames.com/hanabi/game-rules.php
+
 Backend: Java
 
 The goal is to create the basic operations using java 
