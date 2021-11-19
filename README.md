@@ -13,4 +13,5 @@ Disclaimer: This project is not designed for profit - it is purely a learning ex
 
 Limitations: The basic game functions are present, but some of the features that have not been implemented include:
   - The ability to use cancel as an input and return to the previous option whenever you are asked for a command (currently only implemented for the give hint command).
+  - During the give hint section of the round, you can signal that there are multiple cards of the same colour but then give the same position over and over again if wanted.
   - A graphical interface would serve this game a lot better
