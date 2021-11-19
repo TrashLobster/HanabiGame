@@ -41,13 +41,6 @@ public class CardDeck extends Hand{
         this.cards.add(card);
     }
 
-
-//    public Card playCard(int cardPosition) {
-//        // TODO: remove card from deck
-//    }
-
-    // the deck has multiple cards that have identical color and number
-
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("Cards in " + name + ":\n");
@@ -60,14 +53,4 @@ public class CardDeck extends Hand{
     public int size() {
         return cards.size();
     }
-
-//    public void removeAll(CardDeck deck) {
-//        for(Card card: cards) {
-//            for(Card deckCard : deck.getCards()) {
-//                if(card.equals(deckCard)) {
-//                    cards.remove(card);
-//                }
-//            }
-//        }
-//    }
 }
