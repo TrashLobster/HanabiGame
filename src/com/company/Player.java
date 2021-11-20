@@ -1,7 +1,6 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Player {
@@ -34,7 +33,7 @@ public class Player {
     }
 
     public boolean addCard(Card card) {
-        if(hand.getCards().size() < 5) {
+        if (hand.getCards().size() < 5) {
             hand.addCard(card);
             return true;
         }
@@ -42,7 +41,7 @@ public class Player {
     }
 
     public Card playCard(int cardPosition) {
-        if(hand.getCards().size() > 0) {
+        if (hand.getCards().size() > 0) {
             return hand.dropCard(cardPosition);
         }
         return null;
@@ -50,10 +49,6 @@ public class Player {
 
     public int getHandSize() {
         return getHand().getCards().size();
-    }
-
-    public List<Card> getCards() {
-        return getCards();
     }
 
     public String printHand() {

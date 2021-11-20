@@ -11,8 +11,8 @@ public class Scoreboard {
 
     public void increaseScore(int points) {
         this.currentScore += points;
-        if(this.currentScore > 25) {
-            this.currentScore = 25;
+        if (this.currentScore > maxScore) {
+            this.currentScore = maxScore;
         }
     }
 }
