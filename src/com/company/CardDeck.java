@@ -1,10 +1,11 @@
 package com.company;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
-public class CardDeck extends Hand{
+public class CardDeck extends Hand {
     private final String name;
-    int[] possibleValues = new int[] {1, 1, 1, 2, 2, 3, 3, 4, 4, 5};
+    int[] possibleValues = new int[] { 1, 1, 1, 2, 2, 3, 3, 4, 4, 5 };
 
     public CardDeck(String name) {
         this.name = name;
@@ -20,16 +21,16 @@ public class CardDeck extends Hand{
 
     public void generateDeck() {
         int id = 1;
-        for(Card.Color color : Card.Color.values()) {
-            for(int value : possibleValues) {
-                addCard(generateCard(color, value, id));
+        for (Colour colour : Colour.values()) {
+            for (int value : possibleValues) {
+                addCard(generateCard(colour, value, id));
                 id++;
             }
         }
     }
 
-    public Card generateCard(Card.Color color, int value, int id) {
-        return new Card(color, value, id);
+    public Card generateCard(Colour colour, int value, int id) {
+        return new Card(colour, value, id);
     }
 
     public void shuffleDeck() {
@@ -44,7 +45,7 @@ public class CardDeck extends Hand{
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("Cards in " + name + ":\n");
-        for(Card card : cards) {
+        for (Card card : cards) {
             s.append("Card #").append(card.getId()).append(" ").append(card).append("\n");
         }
         return s.toString();
