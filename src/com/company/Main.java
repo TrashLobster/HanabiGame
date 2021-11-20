@@ -355,8 +355,13 @@ public class Main {
         return false;
     }
 
-    public static boolean checkIfValidValue(String value) {
-        return (VALUES.contains(value.toLowerCase()));
+    public static boolean checkIfValidValue(String valueInput) {
+        for(String value : VALUES) {
+            if(value.equalsIgnoreCase(valueInput)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean playCard(Player player, FireworkCollection fireworkCollection, CardDeck discardPile, CardDeck cardDeck,
