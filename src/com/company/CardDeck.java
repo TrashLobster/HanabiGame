@@ -1,6 +1,7 @@
 package com.company;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 public class CardDeck extends Hand {
     private final String name;
@@ -20,16 +21,16 @@ public class CardDeck extends Hand {
 
     public void generateDeck() {
         int id = 1;
-        for (Card.Color color : Card.Color.values()) {
+        for (Colour colour : Colour.values()) {
             for (int value : possibleValues) {
-                addCard(generateCard(color, value, id));
+                addCard(generateCard(colour, value, id));
                 id++;
             }
         }
     }
 
-    public Card generateCard(Card.Color color, int value, int id) {
-        return new Card(color, value, id);
+    public Card generateCard(Colour colour, int value, int id) {
+        return new Card(colour, value, id);
     }
 
     public void shuffleDeck() {

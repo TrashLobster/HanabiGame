@@ -32,12 +32,10 @@ public class Player {
         return hintReceived;
     }
 
-    public boolean addCard(Card card) {
+    public void addCard(Card card) {
         if (hand.getCards().size() < 5) {
             hand.addCard(card);
-            return true;
         }
-        return false;
     }
 
     public Card playCard(int cardPosition) {

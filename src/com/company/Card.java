@@ -1,22 +1,18 @@
 package com.company;
 
 public class Card {
-    private final Color color;
+    private final Colour colour;
     private final int cardValue;
     private final int id;
 
-    enum Color {
-        RED, YELLOW, GREEN, BLUE, WHITE,
-    }
-
-    public Card(Color color, int cardValue, int id) {
-        this.color = color;
+    public Card(Colour colour, int cardValue, int id) {
+        this.colour = colour;
         this.cardValue = cardValue;
         this.id = id;
     }
 
-    public Color getColor() {
-        return color;
+    public Colour getColour() {
+        return colour;
     }
 
     public int getCardValue() {
@@ -29,7 +25,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return color + " : " + cardValue;
+        return colour + " : " + cardValue;
     }
 
 }

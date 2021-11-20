@@ -6,7 +6,6 @@ import static com.company.ThreadColour.*;
 
 public class Main {
 
-    final static List<String> COLORS = new ArrayList<>(Arrays.asList("yellow", "red", "blue", "white", "red"));
     final static List<String> VALUES = new ArrayList<>(
             Arrays.asList("1", "2", "3", "4", "5", "one", "two", "three", "four", "five"));
 
@@ -202,7 +201,6 @@ public class Main {
                 System.out.println("Invalid input. Please try again.\n");
             }
         }
-        scanner.close();
         return numberOfPlayers;
     }
 
@@ -216,7 +214,6 @@ public class Main {
             playerList.add(player);
             listOfPlayerNames.add(name.toLowerCase());
         }
-        scanner.close();
         return playerList;
     }
 
@@ -334,11 +331,9 @@ public class Main {
                 otherPlayer.getHintReceived().add(hint.toString());
             }
         }
-
         if (continueLoop) {
             noteTokens.flipWhiteToken();
         }
-
         return continueLoop;
     }
 
@@ -352,11 +347,16 @@ public class Main {
     }
 
     public static boolean checkIfValidColour(String colourInput) {
-        return (COLORS.contains(colourInput));
+        for(var colour : Colour.values()) {
+            if(colour.toString().equalsIgnoreCase(colourInput)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean checkIfValidValue(String value) {
-        return (VALUES.contains(value));
+        return (VALUES.contains(value.toLowerCase()));
     }
 
     public static boolean playCard(Player player, FireworkCollection fireworkCollection, CardDeck discardPile, CardDeck cardDeck,
@@ -370,7 +370,7 @@ public class Main {
                 System.out.println(cardPlayed);
                 for (Firework firework : fireworkCollection.getFireworks()) {
                     String fireworkColor = firework.getColor();
-                    String cardColor = cardPlayed.getColor().toString();
+                    String cardColor = cardPlayed.getColour().toString();
                     int fireworkNextValue = firework.getNextValueExpected();
                     int cardValue = cardPlayed.getCardValue();
 
