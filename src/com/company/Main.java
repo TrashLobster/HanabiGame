@@ -21,7 +21,7 @@ public class Main {
         StormTokens stormTokens = new StormTokens();
         List<String> listOfPlayerNames = new ArrayList<>();
 
-        int numberOfPlayers = determineNumberOfPlayers();
+        int numberOfPlayers = setNumberOfPlayers();
 
         List<Player> playerList = createPlayersAndOrderOfPlay(numberOfPlayers, listOfPlayerNames);
 
@@ -66,44 +66,45 @@ public class Main {
                     } finally {
                         if (hasNextInt && command < 10 && command >= 0) {
                             switch (command) {
-                            case 0:
-                                printInstructions();
-                                break;
-                            case 1:
-                                reviewTokens(noteTokens, stormTokens);
-                                System.out.println("Please choose another action.");
-                                break;
-                            case 2:
-                                printPlayersHands(player, playerList);
-                                System.out.println("Please choose another action.");
-                                break;
-                            case 3:
-                                printFireworks(fireworkCollection);
-                                System.out.println("Please choose another action.");
-                                break;
-                            case 4:
-                                printDiscardPile(discardPile);
-                                System.out.println("Please choose another action.");
-                                break;
-                            case 5:
-                                viewHintsGiven(player);
-                                System.out.println("Please choose another action.");
-                                break;
-                            case 6:
-                                turnOver = giveHint(playerList, listOfPlayerNames, player, noteTokens);
-                                break;
-                            case 7:
-                                turnOver = discardCard(player, discardPile, noteTokens, deck);
-                                break;
-                            case 8:
-                                turnOver = playCard(player, fireworkCollection, discardPile, deck, noteTokens, stormTokens);
-                                break;
-                            case 9:
-                                turnOver = true;
-                                gameOn = false;
-                                break;
-                            default:
-                                break;
+                                case 0:
+                                    printInstructions();
+                                    break;
+                                case 1:
+                                    reviewTokens(noteTokens, stormTokens);
+                                    System.out.println("Please choose another action.");
+                                    break;
+                                case 2:
+                                    printPlayersHands(player, playerList);
+                                    System.out.println("Please choose another action.");
+                                    break;
+                                case 3:
+                                    printFireworks(fireworkCollection);
+                                    System.out.println("Please choose another action.");
+                                    break;
+                                case 4:
+                                    printDiscardPile(discardPile);
+                                    System.out.println("Please choose another action.");
+                                    break;
+                                case 5:
+                                    viewHintsGiven(player);
+                                    System.out.println("Please choose another action.");
+                                    break;
+                                case 6:
+                                    turnOver = giveHint(playerList, listOfPlayerNames, player, noteTokens);
+                                    break;
+                                case 7:
+                                    turnOver = discardCard(player, discardPile, noteTokens, deck);
+                                    break;
+                                case 8:
+                                    turnOver = playCard(player, fireworkCollection, discardPile, deck, noteTokens,
+                                            stormTokens);
+                                    break;
+                                case 9:
+                                    turnOver = true;
+                                    gameOn = false;
+                                    break;
+                                default:
+                                    break;
                             }
                             // }
                         } else {
@@ -130,46 +131,46 @@ public class Main {
                     }
                     System.out.println("\nYour final score is " + score + ". And...");
                     switch (score) {
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        System.out.println(ANSI_BLACK + "Oh dear! The crowd booed.");
-                        break;
-                    case 6:
-                    case 7:
-                    case 8:
-                    case 9:
-                    case 10:
-                        System.out.println(ANSI_PURPLE + "Poor! A smattering of applause.");
-                        break;
-                    case 11:
-                    case 12:
-                    case 13:
-                    case 14:
-                    case 15:
-                        System.out.println(ANSI_CYAN + "OK! The viewers have seen better.");
-                        break;
-                    case 16:
-                    case 17:
-                    case 18:
-                    case 19:
-                    case 20:
-                        System.out.println(ANSI_BLUE + "Good! The audience is pleased.");
-                        break;
-                    case 21:
-                    case 22:
-                    case 23:
-                    case 24:
-                        System.out.println(ANSI_GREEN + "Very good! The audience is enthusiastic!");
-                        break;
-                    case 25:
-                        System.out.println(ANSI_RED + "Legendary! The audience will never forget this show!");
-                        break;
-                    default:
-                        break;
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            System.out.println(ANSI_BLACK + "Oh dear! The crowd booed.");
+                            break;
+                        case 6:
+                        case 7:
+                        case 8:
+                        case 9:
+                        case 10:
+                            System.out.println(ANSI_PURPLE + "Poor! A smattering of applause.");
+                            break;
+                        case 11:
+                        case 12:
+                        case 13:
+                        case 14:
+                        case 15:
+                            System.out.println(ANSI_CYAN + "OK! The viewers have seen better.");
+                            break;
+                        case 16:
+                        case 17:
+                        case 18:
+                        case 19:
+                        case 20:
+                            System.out.println(ANSI_BLUE + "Good! The audience is pleased.");
+                            break;
+                        case 21:
+                        case 22:
+                        case 23:
+                        case 24:
+                            System.out.println(ANSI_GREEN + "Very good! The audience is enthusiastic!");
+                            break;
+                        case 25:
+                            System.out.println(ANSI_RED + "Legendary! The audience will never forget this show!");
+                            break;
+                        default:
+                            break;
                     }
                     System.out.println(ANSI_RESET + "\nGame over. Thanks for playing!");
 
@@ -179,8 +180,6 @@ public class Main {
             }
         }
     }
-
-
 
     public static List<Player> createPlayersAndOrderOfPlay(int numberOfPlayers, List<String> listOfPlayerNames) {
         List<Player> playerList = new ArrayList<>();
@@ -325,8 +324,8 @@ public class Main {
     }
 
     public static boolean checkIfValidColour(String colourInput) {
-        for(var colour : Colour.values()) {
-            if(colour.toString().equalsIgnoreCase(colourInput)) {
+        for (var colour : Colour.values()) {
+            if (colour.toString().equalsIgnoreCase(colourInput)) {
                 return true;
             }
         }
@@ -334,16 +333,17 @@ public class Main {
     }
 
     public static boolean checkIfValidValue(String valueInput) {
-        for(String value : VALUES) {
-            if(value.equalsIgnoreCase(valueInput)) {
+        for (String value : VALUES) {
+            if (value.equalsIgnoreCase(valueInput)) {
                 return true;
             }
         }
         return false;
     }
 
-    public static boolean playCard(Player player, FireworkCollection fireworkCollection, CardDeck discardPile, CardDeck cardDeck,
-                                   NoteTokens noteTokens, StormTokens stormTokens) {
+    public static boolean playCard(Player player, FireworkCollection fireworkCollection, CardDeck discardPile,
+            CardDeck cardDeck,
+            NoteTokens noteTokens, StormTokens stormTokens) {
         while (true) {
             System.out.println("You currently have " + player.getHandSize() + " cards.");
             Card cardPlayed = chooseCardFromHand(player);

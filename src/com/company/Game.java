@@ -8,7 +8,7 @@ public class Game {
     private final int numberOfPlayers;
 
     public Game() {
-        this.numberOfPlayers = determineNumberOfPlayers();
+        this.numberOfPlayers = setNumberOfPlayers();
         this.players = createPlayerList(numberOfPlayers, enterNamesOfPlayers(numberOfPlayers));
     }
 
