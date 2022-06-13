@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.Arrays;
 
-public class TokenCollection {
+public abstract class TokenCollection {
     private boolean[] tokens;
 
     public TokenCollection(int numberOfTokens) {
