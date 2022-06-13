@@ -1,28 +1,21 @@
 package com.company;
 
-public class StormTokens {
-    private int stormTokens;
-    private int lightningTokens;
-
+public class StormTokens extends TokenCollection {
+    // TODO: consider whether token classes are even necessary
+    // storm tokens are the starters and value is false
     public StormTokens() {
-        this.stormTokens = 3;
-        this.lightningTokens = 0;
-    }
-
-    public int getLightningTokens() {
-        return lightningTokens;
+        super(3);
     }
 
     public int getStormTokens() {
-        return stormTokens;
+        return countTokens(false);
     }
 
-    public boolean flipStormTokens() {
-        if(stormTokens > 0 && stormTokens <= 3) {
-            stormTokens--;
-            lightningTokens++;
-            return true;
-        }
-        return false;
+    public int getLightningTokens() {
+        return countTokens(true);
+    }
+
+    public void flipStormTokens() {
+        flipToken(false);
     }
 }

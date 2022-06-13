@@ -1,37 +1,24 @@
 package com.company;
 
-public class NoteTokens {
-    private int whiteToken;
-    private int blackToken;
-
+public class NoteTokens extends TokenCollection{
+    // TODO: consider whether token classes are even necessary
     public NoteTokens() {
-        this.whiteToken = 8;
-        this.blackToken = 0;
+        super(8);
     }
 
     public int getWhiteToken() {
-        return whiteToken;
+        return countTokens(false);
     }
 
     public int getBlackToken() {
-        return blackToken;
+        return countTokens(true);
     }
 
-    public boolean flipWhiteToken() {
-        if(whiteToken > 0 && whiteToken <= 8) {
-            whiteToken--;
-            blackToken++;
-            return true;
-        }
-        return false;
+    public void flipWhiteToken() {
+        flipToken(false);
     }
 
-    public boolean flipBlackToken() {
-        if(blackToken > 0 && blackToken <= 8) {
-            whiteToken++;
-            blackToken--;
-            return true;
-        }
-        return false;
+    public void flipBlackToken() {
+        flipToken(true);
     }
 }
