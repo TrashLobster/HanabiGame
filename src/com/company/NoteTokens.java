@@ -1,7 +1,6 @@
 package com.company;
 
 public class NoteTokens extends TokenCollection{
-    // TODO: consider whether token classes are even necessary
     public NoteTokens() {
         super(8);
     }
