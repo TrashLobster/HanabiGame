@@ -39,5 +39,7 @@ public class CardCollection implements CardAction{
         }
         return s.toString();
     }
+
+    // add sort method?
 }
     

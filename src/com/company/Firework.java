@@ -1,7 +1,5 @@
 package com.company;
 
-import java.util.List;
-
 public class Firework extends CardCollection{
     private final String color;
     private boolean completed;
@@ -36,7 +34,7 @@ public class Firework extends CardCollection{
             cards.add(card);
             nextValueExpected++;
         } else {
-            System.out.println("Firework collection complete.");
+            System.out.println("Firework collection complete. Cannot add more cards.");
         }
     }
 
