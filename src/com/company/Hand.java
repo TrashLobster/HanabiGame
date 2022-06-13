@@ -6,6 +6,10 @@ public class Hand extends CardCollection{
         super();
     }
 
+    public Card dropCard(int cardPosition) {
+        return cards.remove(cardPosition);
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("Cards in hand" + ":\n");

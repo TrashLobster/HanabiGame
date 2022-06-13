@@ -15,7 +15,7 @@ public class CardDeck extends CardCollection {
     }
 
     public void generateDeck() {
-        int id = 1;
+        int id = 0;
         for (Colour colour : Colour.values()) {
             for (int value : possibleValues) {
                 addCard(generateCard(colour, value, id));
@@ -23,9 +23,13 @@ public class CardDeck extends CardCollection {
             }
         }
     }
-
+    
     public Card generateCard(Colour colour, int value, int id) {
         return new Card(colour, value, id);
+    }
+    
+    public Card dropCard(int cardPosition) {
+        return cards.remove(cardPosition);
     }
 
     @Override

@@ -23,10 +23,6 @@ public class CardCollection implements CardAction{
         cards.add(card);
     }
 
-    public Card dropCard(int cardPosition) {
-        return cards.remove(cardPosition);
-    }
-
     public int size() {
         return cards.size();
     }

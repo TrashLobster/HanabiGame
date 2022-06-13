@@ -1,16 +1,14 @@
 package com.company;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Firework {
-    private final List<Card> cards;
+public class Firework extends CardCollection{
     private final String color;
     private boolean completed;
     private int nextValueExpected;
 
     public Firework(String color) {
-        this.cards = new ArrayList<>();
+        super();
         this.color = color;
         this.completed = false;
         this.nextValueExpected = 1;
@@ -23,10 +21,6 @@ public class Firework {
         return completed;
     }
 
-    public List<Card> getCards() {
-        return cards;
-    }
-
     public String getColor() {
         return color;
     }
@@ -35,10 +29,14 @@ public class Firework {
         return nextValueExpected;
     }
 
-    public void addCard(Card card) {
+    @Override
+    public void addCard(Card card){
+
         if(nextValueExpected <= 5) {
             cards.add(card);
             nextValueExpected++;
+        } else {
+            System.out.println("Firework collection complete.");
         }
     }
 
