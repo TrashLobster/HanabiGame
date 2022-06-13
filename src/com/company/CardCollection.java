@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CardCollection implements CardAction{
+public abstract class CardCollection implements CardAction {
     protected List<Card> cards;
 
     public CardCollection() {
         this.cards = new ArrayList<>();
     }
-    
+
     public List<Card> getCards() {
         return cards;
     }
-    
+
     public int getNumberOfCards() {
         return cards.size();
     }
@@ -33,13 +33,16 @@ public class CardCollection implements CardAction{
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder("Cards in deck" + ":\n");
-        for(Card card : cards) {
-            s.append(card.toString()).append("\n");
+        StringBuilder s = new StringBuilder();
+        if (cards.size() <= 0) {
+            s.append("There are no cards left.");
+        } else if (cards.size() > 0) {
+            for (Card card : cards) {
+                s.append(card.toString()).append("\n");
+            }
         }
         return s.toString();
     }
 
     // add sort method?
 }
-    
