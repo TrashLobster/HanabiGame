@@ -15,8 +15,8 @@ public class Main {
 
         FireworkCollection fireworkCollection = new FireworkCollection();
 
-        CardDeck deck = new CardDeck("Playing Deck");
-        CardDeck discardPile = new CardDeck("Discard Pile");
+        CardDeck deck = new CardDeck();
+        CardDeck discardPile = new CardDeck();
         NoteTokens noteTokens = new NoteTokens();
         StormTokens stormTokens = new StormTokens();
         List<String> listOfPlayerNames = new ArrayList<>();
@@ -30,7 +30,7 @@ public class Main {
         }
 
         deck.generateDeck();
-        deck.shuffleDeck();
+        deck.shuffle();
 
         for (Player player : playerList) {
             int handHasCards = 4;
@@ -180,29 +180,7 @@ public class Main {
         }
     }
 
-    public static int determineNumberOfPlayers() {
-        Scanner scanner = new Scanner(System.in);
-        int numberOfPlayers = 0;
-        boolean validAmountOfPlayers = false;
-        while (!validAmountOfPlayers) {
-            System.out.println("How many players do you want in this game? Choose between 2 to 5: ");
-            try {
-                numberOfPlayers = scanner.nextInt();
-            } catch (Exception InputMismatchException) {
-                System.out.println("Invalid input. We need a digit between 2 to 5");
-                numberOfPlayers = 0;
-                scanner.nextLine();
-                continue;
-            }
-            if (numberOfPlayers <= 5 && numberOfPlayers >= 2) {
-                System.out.println("There are " + numberOfPlayers + " players in this game.");
-                validAmountOfPlayers = true;
-            } else {
-                System.out.println("Invalid input. Please try again.\n");
-            }
-        }
-        return numberOfPlayers;
-    }
+
 
     public static List<Player> createPlayersAndOrderOfPlay(int numberOfPlayers, List<String> listOfPlayerNames) {
         List<Player> playerList = new ArrayList<>();
