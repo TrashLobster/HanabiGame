@@ -52,4 +52,11 @@ public class Player {
     public String printHand() {
         return getHand().toString();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder("Player: ");
+        s.append(name + "\nOrder of Play: " + (orderOfPlay + 1));
+        return s.toString();
+    }
 }

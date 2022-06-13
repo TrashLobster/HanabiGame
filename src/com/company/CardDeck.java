@@ -1,17 +1,11 @@
 package com.company;
 
-public class CardDeck extends CardCollection {
-    private final String name;
-
+public class CardDeck extends CardCollection implements CardsRemovable{
+    
     int[] possibleValues = new int[] { 1, 1, 1, 2, 2, 3, 3, 4, 4, 5 };
 
-    public CardDeck(String name) {
+    public CardDeck() {
         super();
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void generateDeck() {
@@ -27,17 +21,23 @@ public class CardDeck extends CardCollection {
     public Card generateCard(Colour colour, int value, int id) {
         return new Card(colour, value, id);
     }
-    
-    public Card dropCard(int cardPosition) {
+
+    public Card dropCard() throws ArrayIndexOutOfBoundsException {
+        if (cards.size() > 0) {
+            return cards.remove(cards.size() - 1);
+        } else {
+            throw new ArrayIndexOutOfBoundsException("There are no cards to drop.");
+        }
+    }
+
+    public Card dropCard(int cardPosition) throws ArrayIndexOutOfBoundsException {
         return cards.remove(cardPosition);
     }
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder("Cards in " + name + ":\n");
-        for (Card card : cards) {
-            s.append("Card #").append(card.getId()).append(" ").append(card).append("\n");
-        }
+        StringBuilder s = new StringBuilder("Cards in deck" + ":\n");
+        s.append(super.toString());
         return s.toString();
     }
 
