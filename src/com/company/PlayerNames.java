@@ -35,4 +35,12 @@ public class PlayerNames {
 
         return nameToBeTested;
     }
+
+    public void printPlayerNames() {
+        StringBuilder s = new StringBuilder("The players are:\n");
+        for(int i = 0; i < playerNames.length; i++) {
+            s.append(playerNames[i] + "\n");
+        }
+        System.out.println(s.toString()); 
+    }
 }
