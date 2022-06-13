@@ -1,18 +1,13 @@
 package com.company;
 
-import java.util.Collections;
-import java.util.List;
-
-public class CardDeck extends Hand {
+public class CardDeck extends CardCollection {
     private final String name;
+
     int[] possibleValues = new int[] { 1, 1, 1, 2, 2, 3, 3, 4, 4, 5 };
 
     public CardDeck(String name) {
+        super();
         this.name = name;
-    }
-
-    public List<Card> getCards() {
-        return cards;
     }
 
     public String getName() {
@@ -33,15 +28,6 @@ public class CardDeck extends Hand {
         return new Card(colour, value, id);
     }
 
-    public void shuffleDeck() {
-        Collections.shuffle(cards);
-    }
-
-    @Override
-    public void addCard(Card card) {
-        this.cards.add(card);
-    }
-
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("Cards in " + name + ":\n");
@@ -51,7 +37,4 @@ public class CardDeck extends Hand {
         return s.toString();
     }
 
-    public int size() {
-        return cards.size();
-    }
 }

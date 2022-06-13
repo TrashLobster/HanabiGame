@@ -1,29 +1,9 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Hand {
-    public List<Card> cards;
+public class Hand extends CardCollection{
 
     public Hand() {
-        this.cards = new ArrayList<>();
-    }
-
-    public int getNumberOfCards() {
-        return cards.size();
-    }
-
-    public List<Card> getCards() {
-        return cards;
-    }
-
-    public void addCard(Card card) {
-        cards.add(card);
-    }
-
-    public Card dropCard(int cardPosition) {
-        return cards.remove(cardPosition);
+        super();
     }
 
     @Override
