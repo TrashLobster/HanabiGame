@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Game {
     private static final Scanner scan = new Scanner(System.in);
-    private PlayerList players;
+    private PlayerList playerList;
     private NoteTokens noteTokens;
     private StormTokens stormTokens;
     private FireworkCollection fireworkCollection;
@@ -20,9 +20,9 @@ public class Game {
 
     public void initalisePlayers() {
         System.out.println("Welcome to the game, let's get you started.\nHow many players are there?");
-        this.players = new PlayerList(scan.nextInt());
-        this.players.setPlayerNames();
-        this.players.setPlayers();
+        this.playerList = new PlayerList(scan.nextInt());
+        this.playerList.setPlayerNames();
+        this.playerList.setPlayers();
     }
 
     public void initialiseTokens() {
@@ -37,11 +37,12 @@ public class Game {
     public void initaliseCardDecks() {
         this.deck = new CardDeck();
         this.deck.generateDeck();
+        this.deck.shuffle();
         this.discardPile = new CardDeck();
     }
 
-    public PlayerList getPlayers() {
-        return this.players;
+    public PlayerList getPlayerList() {
+        return this.playerList;
     }
 
     public NoteTokens getNoteTokens() {
