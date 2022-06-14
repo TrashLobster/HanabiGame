@@ -52,11 +52,10 @@ public class PlayerList {
         boolean validAmountOfPlayers = numberOfPlayers >= 2 && numberOfPlayers <= 5 ? true : false;
 
         while (!validAmountOfPlayers) {
-            System.out.println("How many players do you want in this game? Choose between 2 to 5: ");
+            System.out.println("Invalid input. We need a digit between 2 to 5\n");
             try {
                 numberOfPlayers = scan.nextInt();
             } catch (Exception InputMismatchException) {
-                System.out.println("Invalid input. We need a digit between 2 to 5");
                 numberOfPlayers = 0;
                 continue;
             }
