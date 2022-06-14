@@ -10,8 +10,8 @@ public class PlayerList {
     private PlayerNames playerNames;
     private List<Player> players;
 
-    public PlayerList() {
-        this.numberOfPlayers = setNumberOfPlayers();
+    public PlayerList(int numberOfPlayers) {
+        this.numberOfPlayers = checkNumberOfPlayers(numberOfPlayers);
         this.playerNames = new PlayerNames(numberOfPlayers);
         this.players = new ArrayList<>();
     }
@@ -19,17 +19,22 @@ public class PlayerList {
     public PlayerNames getPlayerNames() {
         return playerNames;
     }
+    
+    public void setPlayerNames() {
+        this.playerNames.setPlayerNames(numberOfPlayers);
+    }
 
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public int setNumberOfPlayers(int numberOfPlayers) {
+        numberOfPlayers = checkNumberOfPlayers(numberOfPlayers);
+        return numberOfPlayers;
     }
 
-    public void setPlayerNames() {
-        this.playerNames.setPlayerNames(numberOfPlayers);
+    public List<Player> getPlayers() {
+        return players;
     }
 
     public void setPlayers() throws ArrayIndexOutOfBoundsException {
@@ -42,9 +47,9 @@ public class PlayerList {
         }
     }
 
-    public int setNumberOfPlayers() {
-        int numberOfPlayers = 0;
-        boolean validAmountOfPlayers = false;
+    public int checkNumberOfPlayers(int numberOfPlayers) {
+        
+        boolean validAmountOfPlayers = numberOfPlayers >= 2 && numberOfPlayers <= 5 ? true : false;
 
         while (!validAmountOfPlayers) {
             System.out.println("How many players do you want in this game? Choose between 2 to 5: ");
@@ -61,9 +66,11 @@ public class PlayerList {
             } else {
                 System.out.println("Invalid input. Please try again.\n");
             }
+            scan.nextLine();
         }
-        scan.nextLine();
+
         return numberOfPlayers;
     }
+
 
 }
