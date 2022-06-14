@@ -13,24 +13,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        FireworkCollection fireworkCollection = new FireworkCollection();
+        Game game = new Game();
 
-        CardDeck deck = new CardDeck();
-        CardDeck discardPile = new CardDeck();
-        NoteTokens noteTokens = new NoteTokens();
-        StormTokens stormTokens = new StormTokens();
-        List<String> listOfPlayerNames = new ArrayList<>();
+        PlayerList playerList = game.getPlayerList();
 
-        int numberOfPlayers = setNumberOfPlayers();
+        List<Player> players = playerList.getPlayers();
 
-        List<Player> playerList = createPlayersAndOrderOfPlay(numberOfPlayers, listOfPlayerNames);
-
-        for (Player player : playerList) {
-            System.out.println(player.getName() + " : Order of Play " + player.getOrderOfPlay());
+        for (int i; i<players.size(); i++) {
+            System.out.println(players.get(i).getName() + " : Order of Play " + players.get(i).getOrderOfPlay());
         }
 
-        deck.generateDeck();
-        deck.shuffle();
+        CardDeck deck = game.getCardDeck();
+        CardDeck discardPile = game.getDiscardPile();
 
         for (Player player : playerList) {
             int handHasCards = 4;
