@@ -33,16 +33,7 @@ public class Player {
     }
 
     public void addCard(Card card) {
-        if (hand.getCards().size() < 5) {
-            hand.addCard(card);
-        }
-    }
-
-    public Card playCard(int cardPosition) {
-        if (hand.getCards().size() > 0) {
-            return hand.dropCard(cardPosition);
-        }
-        return null;
+        hand.addCard(card);
     }
 
     public int getHandSize() {
