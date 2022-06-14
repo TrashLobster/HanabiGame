@@ -6,6 +6,13 @@ public class Hand extends CardCollection implements CardsRemovable{
         super();
     }
 
+    @Override
+    public void addCard(Card card) {
+        if (cards.size() < 5) {
+            cards.add(card);
+        }
+    }
+
     public Card dropCard() throws ArrayIndexOutOfBoundsException {
         if (cards.size() > 0) {
             return cards.remove(cards.size() - 1);
