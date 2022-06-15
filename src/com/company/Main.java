@@ -13,27 +13,27 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Game game = new Game();
-
+        GameAttributes game = new GameAttributes();
         PlayerList playerList = game.getPlayerList();
-
         List<Player> players = playerList.getPlayers();
-
         int playerSize = playerList.getNumberOfPlayers();
-
-        // TODO: turn PlayerList List<Player> into an iterable
-        for (int i; i<playerSize; i++) {
-            System.out.println(players.get(i).getName() + " : Order of Play " + players.get(i).getOrderOfPlay());
-        }
-
+        StormTokens stormTokens = game.getStormTokens();
+        NoteTokens noteTokens = game.getNoteTokens();
         CardDeck shuffledDeck = game.getCardDeck();
         CardDeck discardPile = game.getDiscardPile();
 
-        for (int i; i<playerSize; i++) {
+        // TODO: turn PlayerList List<Player> into an iterable
+        for (int i; i < playerSize; i++) {
+            System.out.println(players.get(i).getName() + " : Order of Play " + players.get(i).getOrderOfPlay());
+        }
+
+        // initalise players' hand
+        for (int i; i < playerSize; i++) {
             int handHasCards = playerSize == 2 || playerSize == 3 ? 5 : 4;
 
-            for (int j = handHasCards; j>0; j--) {
-                players.get(i).addCard(shuffledDeck.dropCard(0));
+            for (int j = handHasCards; j > 0; j--) {
+                Card topCard = shuffledDeck.dropCard(0);
+                players.get(i).addCard(topCard);
             }
 
         }
@@ -43,11 +43,11 @@ public class Main {
         int turn = 0;
         while (gameOn) {
             turn++;
-            for (Player player : playerList) {
+            for (int i; i < playerSize; i++) {
                 int score = 0;
                 System.out.println();
                 System.out.println("Turn " + turn);
-                System.out.println(player.getName() + "'s turn.\nPlease choose one of the following actions:");
+                System.out.println(players.get(i).getName() + "'s turn.\nPlease choose one of the following actions:");
                 printInstructions();
                 boolean turnOver = false;
 
@@ -60,48 +60,7 @@ public class Main {
                     } catch (Exception ignored) {
                     } finally {
                         if (hasNextInt && command < 10 && command >= 0) {
-                            switch (command) {
-                                case 0:
-                                    printInstructions();
-                                    break;
-                                case 1:
-                                    reviewTokens(noteTokens, stormTokens);
-                                    System.out.println("Please choose another action.");
-                                    break;
-                                case 2:
-                                    printPlayersHands(player, playerList);
-                                    System.out.println("Please choose another action.");
-                                    break;
-                                case 3:
-                                    printFireworks(fireworkCollection);
-                                    System.out.println("Please choose another action.");
-                                    break;
-                                case 4:
-                                    printDiscardPile(discardPile);
-                                    System.out.println("Please choose another action.");
-                                    break;
-                                case 5:
-                                    viewHintsGiven(player);
-                                    System.out.println("Please choose another action.");
-                                    break;
-                                case 6:
-                                    turnOver = giveHint(playerList, listOfPlayerNames, player, noteTokens);
-                                    break;
-                                case 7:
-                                    turnOver = discardCard(player, discardPile, noteTokens, shuffledDeck);
-                                    break;
-                                case 8:
-                                    turnOver = playCard(player, fireworkCollection, discardPile, shuffledDeck, noteTokens,
-                                            stormTokens);
-                                    break;
-                                case 9:
-                                    turnOver = true;
-                                    gameOn = false;
-                                    break;
-                                default:
-                                    break;
-                            }
-                            // }
+
                         } else {
                             scanner.nextLine();
                             System.out.println("Invalid input. Try again.");
@@ -125,9 +84,9 @@ public class Main {
                         score = 0;
                     }
                     System.out.println("\nYour final score is " + score + ". And...");
-                    
+
                     finalResultAnnouncement(score);
-                    
+
                     System.out.println(ANSI_RESET + "\nGame over. Thanks for playing!");
 
                     gameOn = false;
@@ -182,162 +141,11 @@ public class Main {
         }
     }
 
-    public static List<Player> createPlayersAndOrderOfPlay(int numberOfPlayers, List<String> listOfPlayerNames) {
-        List<Player> playerList = new ArrayList<>();
-        Scanner scanner = new Scanner(System.in);
-        for (int i = 1; i <= numberOfPlayers; i++) {
-            System.out.println("Please enter the player's name:");
-            String name = scanner.nextLine();
-            Player player = new Player(name, i);
-            playerList.add(player);
-            listOfPlayerNames.add(name.toLowerCase());
-        }
-        return playerList;
-    }
-
-    public static void printInstructions() {
-        System.out.println(
-                ANSI_BLUE + "0 : Show possible actions" + "\n1 : Check tokens" + "\n2 : View other players' cards"
-                        + "\n3 : View fireworks" + "\n4 : View discard pile" + "\n5 : View hints given to you"
-                        + "\n6 : Give a hint" + "\n7 : Discard a card" + "\n8 : Play a card" + "\n9 : Quit the game");
-        System.out.println(ANSI_RESET);
-    }
-
-    public static boolean giveHint(List<Player> playerList, List<String> listOfPlayerNames, Player player,
-            NoteTokens noteTokens) {
-        boolean continueLoop = true;
-        boolean validHintType = false;
-        boolean correctPersonToGiveHint = false;
-        String targetPlayer = "";
-
-        while (!correctPersonToGiveHint) {
-            StringBuilder s = new StringBuilder("Which of these players do you want to give a hint to:");
-            for (Player otherPlayer : playerList) {
-                if (!player.equals(otherPlayer)) {
-                    s.append("\n").append(otherPlayer.getName());
-                }
-            }
-            System.out.println(s);
-            targetPlayer = scanner.nextLine();
-            if (targetPlayer.equalsIgnoreCase(player.getName())) {
-                System.out.println("You cannot give yourself a hint. Please try again.");
-            } else if (!listOfPlayerNames.contains(targetPlayer.toLowerCase())) {
-                System.out.println("Invalid player name. Please try again.");
-            } else if (cancelEntry(targetPlayer)) {
-                validHintType = true;
-                continueLoop = false;
-            } else {
-                correctPersonToGiveHint = true;
-            }
-        }
-
-        StringBuilder hint = new StringBuilder();
-
-        while (!validHintType) {
-            System.out.println("What type of hint do you want to make? Colour or value?");
-            String hintType = scanner.nextLine();
-            if (hintType.equalsIgnoreCase("colour") || hintType.equalsIgnoreCase("color")) {
-                System.out.println("What colour?");
-                String colour = scanner.nextLine();
-                if (checkIfValidColour(colour)) {
-                    hint.append("Colour: ").append(colour);
-                    System.out.println("How many of them are there?");
-                    int numberOfCardsMatchingColour = scanner.nextInt();
-                    scanner.nextLine();
-                    hint.append("\nNumber of matching cards: ").append(numberOfCardsMatchingColour);
-                    hint.append("\nPosition(s):");
-
-                    if (numberOfCardsMatchingColour == 0) {
-                        hint.append("You have no ").append(colour.toLowerCase()).append(" cards.");
-                        validHintType = true;
-                    } else if (numberOfCardsMatchingColour <= player.getHandSize()) {
-                        for (int i = 0; i < numberOfCardsMatchingColour; i++) {
-                            System.out.println("What is the position of card " + (i + 1) + "?");
-                            hint.append(" ").append(scanner.nextInt());
-                        }
-                        validHintType = true;
-                    } else {
-                        System.out.println("Invalid number of cards entered. Please try again.");
-                    }
-                } else if (cancelEntry(colour)) {
-                    validHintType = true;
-                    continueLoop = false;
-                } else {
-                    System.out.println("Invalid colour. Please try again.");
-                }
-
-            } else if (hintType.equalsIgnoreCase("value")) {
-                System.out.println("What value?");
-                String value = scanner.nextLine();
-                if (checkIfValidValue(value)) {
-                    hint.append("Value: ").append(value);
-                    System.out.println("How many of them are there?");
-                    int numberOfCardsMatchingColour = scanner.nextInt();
-                    scanner.nextLine();
-                    hint.append("\nNumber of matching cards: ").append(numberOfCardsMatchingColour);
-                    hint.append("\nPosition(s):");
-
-                    if (numberOfCardsMatchingColour == 0) {
-                        hint.append(" You have no cards of value ").append(value.toLowerCase());
-                        validHintType = true;
-                    } else if (numberOfCardsMatchingColour <= player.getHandSize()) {
-                        for (int i = 0; i < numberOfCardsMatchingColour; i++) {
-                            System.out.println("What is the position of card " + (i + 1) + "?");
-                            hint.append(" ").append(scanner.nextInt());
-                        }
-                        validHintType = true;
-                    } else {
-                        System.out.println("Invalid number of cards entered. Please try again.");
-                    }
-                } else if (cancelEntry(value)) {
-                    validHintType = true;
-                    continueLoop = false;
-                } else {
-                    System.out.println("Invalid colour. Please try again.");
-                }
-            } else if (cancelEntry(hintType)) {
-                validHintType = true;
-                continueLoop = false;
-            } else {
-                System.out.println("Not a valid type of hint. Try again.");
-                hint = new StringBuilder();
-            }
-        }
-
-        for (Player otherPlayer : playerList) {
-            if (otherPlayer.getName().equalsIgnoreCase(targetPlayer)) {
-                otherPlayer.getHintReceived().add(hint.toString());
-            }
-        }
-        if (continueLoop) {
-            noteTokens.flipWhiteToken();
-        }
-        return continueLoop;
-    }
-
     public static boolean cancelEntry(String input) {
         if (input.equalsIgnoreCase("cancel")) {
             System.out.println("You have cancelled. Choose an action.\n");
             printInstructions();
             return true;
-        }
-        return false;
-    }
-
-    public static boolean checkIfValidColour(String colourInput) {
-        for (var colour : Colour.values()) {
-            if (colour.toString().equalsIgnoreCase(colourInput)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean checkIfValidValue(String valueInput) {
-        for (String value : VALUES) {
-            if (value.equalsIgnoreCase(valueInput)) {
-                return true;
-            }
         }
         return false;
     }
@@ -416,37 +224,12 @@ public class Main {
         return player.playCard(cardPosition);
     }
 
-    public static void reviewTokens(NoteTokens noteTokens, StormTokens stormTokens) {
-        System.out.println(
-                "White tokens: " + noteTokens.getWhiteToken() + "\nBlack tokens " + noteTokens.getBlackToken());
-        System.out.println();
-        System.out.println("Storm tokens: " + stormTokens.getStormTokens() + "\nLightning tokens: "
-                + stormTokens.getLightningTokens());
-        System.out.println();
-    }
-
     public static void printPlayersHands(Player currentPlayer, List<Player> playerList) {
         for (Player playerInGame : playerList) {
             if (!playerInGame.equals(currentPlayer)) {
                 System.out.println(playerInGame.getName() + "\n" + playerInGame.printHand());
             }
         }
-    }
-
-    public static void printFireworks(FireworkCollection fireworkCollection) {
-        System.out.println("Fireworks on display:");
-        for (var firework : fireworkCollection.getFireworks()) {
-            System.out.println(firework.toString());
-        }
-    }
-
-    public static void printDiscardPile(CardDeck discardPile) {
-        if (discardPile.size() == 0) {
-            System.out.println("No cards in discard pile");
-        } else {
-            System.out.println(discardPile);
-        }
-        System.out.println();
     }
 
     public static void viewHintsGiven(Player player) {
