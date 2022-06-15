@@ -38,6 +38,7 @@ public abstract class CardCollection implements CardAction {
             s.append("There are no cards left.");
         } else if (cards.size() > 0) {
             for (Card card : cards) {
+                s.append("Position: " + cards.indexOf(card) + " - ");
                 s.append(card.toString()).append("\n");
             }
         }
