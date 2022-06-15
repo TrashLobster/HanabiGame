@@ -70,6 +70,42 @@ public class PlayerList {
 
         return numberOfPlayers;
     }
+    
+    public String checkOtherPlayersHands(Player currentPlayer) {
+        StringBuilder s = new StringBuilder("\n");
 
+        for (Player player : players) {
+            if (currentPlayer == player) {
+                continue;
+            }
+            String message = player.getName() + "\n" + player.printHand() + "\n";
+            s.append(message);
+        }
+        s.append("\n");
+        return s.toString();
+    }
 
+    public Player findPlayerByName(String searchName, Player currentPlayer) {
+        Player playerFound = currentPlayer;
+
+        while(playerFound == currentPlayer) {
+            for (Player player : players) {
+                if (player.getName().equalsIgnoreCase(searchName) && player != currentPlayer) {
+                    playerFound = player;
+                } 
+            }
+            if (playerFound == currentPlayer) {
+                System.out.println("Please try another name");
+                searchName = scan.nextLine();
+            }
+        }
+        
+        return playerFound;
+    }
+
+    public void fillPlayersHands(CardDeck cardDeck) {
+        for (var player : players) {
+            player.fillHands(getNumberOfPlayers(), cardDeck);
+        }
+    }
 }
