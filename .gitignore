@@ -1,4 +1,5 @@
 unit test/CardTesting.java
 .vscode/settings.json
 unit test/PlayerTesting.java
+unit test/GameTesting.java
 unit test/TokenTesting.java
