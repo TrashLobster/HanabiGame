@@ -14,11 +14,7 @@ public class Hand extends CardCollection implements CardsRemovable{
     }
 
     public Card dropCard() throws ArrayIndexOutOfBoundsException {
-        if (cards.size() > 0) {
-            return cards.remove(cards.size() - 1);
-        } else {
-            throw new ArrayIndexOutOfBoundsException("There are no cards to drop.");
-        }
+        return cards.remove(cards.size() - 1);
     }
 
     public Card dropCard(int cardPosition) throws ArrayIndexOutOfBoundsException {

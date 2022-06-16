@@ -69,19 +69,27 @@ public class RoundController {
         return turnOver;
     }
 
-    public int checkPlayerChoice(int choice) {
-
+    public int checkChoice(int choice, int choiceUpperLimit, int choiceLowerLimit) {
         boolean validChoice = false;
 
         while (!validChoice) {
-            if (choice < 0 || choice > 9) {
+            if (choice < choiceLowerLimit || choice > choiceUpperLimit) {
                 System.out.println("Invalid choice, try again.");
                 choice = scan.nextInt();
             } else {
                 validChoice = true;
             }
         }
+
         return choice;
+    }
+
+    public int checkPlayerChoice(int choice) {
+        return checkChoice(choice, 9, 0);
+    }
+
+    public int checkDiscardChoice(int cardPosition) {
+        return checkChoice(cardPosition, player.getHandSize(), 0);
     }
 
     public void giveHint(GameAttributes gameAttributes) {
@@ -108,18 +116,18 @@ public class RoundController {
             gameAttributes.getNoteTokens().flipBlackToken();
             System.out.println(player.getHand().getCards().toString());
             System.out.println("Which card would you like to drop?");
-            // fix card position logic
+            
+            int cardPosition = checkDiscardChoice(scan.nextInt());
             Card cardDiscarded = player.getHand().dropCard(cardPosition);
+
+            gameAttributes.getDiscardPile().addCard(cardDiscarded);
+
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("You can't discard any cards! All tokens have been flipped.");
         }
     }
 
-    public int checkDiscardChoice(int cardPosition) {
 
-        
-        return cardPosition;
-    }
     
     public static void printInstructions() {
         System.out.println(
