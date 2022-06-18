@@ -46,13 +46,10 @@ public abstract class TokenCollection {
         return index;
     }
 
-    public void flipToken(boolean choice) {
+    public void flipToken(boolean choice) throws ArrayIndexOutOfBoundsException{
         int index = findIndexOfFirstInstanceOfToken(choice);
-        try {
-            tokens[index] = !tokens[index];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("No target token to flip");
-        }
+    
+        tokens[index] = !tokens[index];
     }
 
 }
