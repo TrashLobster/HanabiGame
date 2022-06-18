@@ -1,17 +1,18 @@
 package com.company;
 
-import java.lang.reflect.Array;
 import java.util.Scanner;
 
 public class RoundController {
     private static final Scanner scan = new Scanner(System.in);
     private Player player;
+    private GameAttributes gameAttributes;
 
-    public RoundController(Player player) {
+    public RoundController(Player player, GameAttributes gameAttributes) {
         this.player = player;
+        this.gameAttributes = gameAttributes;
     }
 
-    public void runRound(int roundNumber, Player player) {
+    public void runRound(int roundNumber) {
         System.out.println();
         System.out.println("Turn " + roundNumber);
         System.out.println(player.getName() + "'s turn.\nPlease choose one of the following actions:");
@@ -19,13 +20,13 @@ public class RoundController {
         boolean turnOver = false;
 
         while (!turnOver) {
-            int choice = -1;
+            turnOver = respondToPlayerChoice(scan.nextInt());
         }
     }
 
-    public boolean respondToPlayerChoice(int choice, GameAttributes gameAttributes) {
+    public boolean respondToPlayerChoice(int choice) {
         boolean turnOver = false;
-        choice = checkPlayerChoice(choice);
+        choice = checkInstructionChoice(choice);
         switch (choice) {
             case 0:
                 printInstructions();
@@ -46,27 +47,30 @@ public class RoundController {
                 System.out.println(player.printHint());
                 break;
             case 6:
-                giveHint(gameAttributes);
+                giveHint();
                 turnOver = true;
                 break;
             case 7:
-                discardCardProcess(gameAttributes);
+                runDiscardCardProcess();
                 turnOver = true;
                 break;
-            // case 8:
-            // turnOver = playCard(player, fireworkCollection, discardPile, shuffledDeck,
-            // noteTokens,
-            // stormTokens);
-            // break;
-            // case 9:
-            // turnOver = true;
-            // gameOn = false;
-            // break;
+            case 8:
+                runPlayCardProcess();
+                turnOver = true;
+                break;
+            case 9:
+                quitGame();
+                turnOver = true;
+                break;
             default:
                 break;
             
         }
         return turnOver;
+    }
+
+    public void quitGame() {
+        gameAttributes.endGame();
     }
 
     public int checkChoice(int choice, int choiceUpperLimit, int choiceLowerLimit) {
@@ -84,15 +88,15 @@ public class RoundController {
         return choice;
     }
 
-    public int checkPlayerChoice(int choice) {
+    public int checkInstructionChoice(int choice) {
         return checkChoice(choice, 9, 0);
     }
 
-    public int checkDiscardChoice(int cardPosition) {
+    public int checkCardChoice(int cardPosition) {
         return checkChoice(cardPosition, player.getHandSize(), 0);
     }
 
-    public void giveHint(GameAttributes gameAttributes) {
+    public void giveHint() {
         try {
             gameAttributes.getNoteTokens().flipWhiteToken();
             
@@ -111,24 +115,71 @@ public class RoundController {
         }
     }
 
-    public void discardCardProcess(GameAttributes gameAttributes) {
+    public Card chooseCardToPlay() {
+        System.out.println(player.getHand().getCards().toString());
+        System.out.println("Which card would you like to play?");
+
+        int cardPosition = checkCardChoice(scan.nextInt());
+
+        return player.playCard(cardPosition);
+    }
+
+    public void runPlayCardProcess() {
+        Card cardPlayed = chooseCardToPlay();
+
+        boolean isCardCorrectlyPlayed = addCardToFireworks(cardPlayed);
+
+        if (!isCardCorrectlyPlayed) {
+            gameAttributes.getStormTokens().flipStormTokens();
+            gameAttributes.getDiscardPile().addCard(cardPlayed);
+        }
+        
+        try {
+            Card cardDeckTopCard = gameAttributes.getCardDeck().dropCard();
+            player.getHand().addCard(cardDeckTopCard);
+        } catch (Exception e) {
+            // TODO: fix up this part of exceptionc catching - what happens when deck is empty?
+            System.out.println("There are no cards to add to the deck.");
+        }        
+    }
+
+    public void runDiscardCardProcess() {
         try {
             gameAttributes.getNoteTokens().flipBlackToken();
-            System.out.println(player.getHand().getCards().toString());
-            System.out.println("Which card would you like to drop?");
-            
-            int cardPosition = checkDiscardChoice(scan.nextInt());
-            Card cardDiscarded = player.getHand().dropCard(cardPosition);
-
-            gameAttributes.getDiscardPile().addCard(cardDiscarded);
-
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("You can't discard any cards! All tokens have been flipped.");
         }
+
+        Card cardDiscarded = chooseCardToPlay();
+
+        gameAttributes.getDiscardPile().addCard(cardDiscarded);
     }
 
+    public boolean addCardToFireworks(Card cardPlayed) {
+        for (Firework firework : gameAttributes.getFireworkCollection().getFireworks()) {
+            String fireworkColor = firework.getColor();
+            int fireworkNextValue = firework.getNextValueExpected();
+            String cardColor = cardPlayed.getColour().toString();
+            int cardValue = cardPlayed.getCardValue();
 
-    
+            if (fireworkColor.equalsIgnoreCase(cardColor) && fireworkNextValue == cardValue) {
+                firework.addCard(cardPlayed);
+                System.out.println(cardPlayed + " has been added to the fireworks stack.");
+                fireworkCompletedReward();
+                return true;
+            }
+        }
+        return false;
+    } 
+
+    public void fireworkCompletedReward() {
+        try {
+            gameAttributes.getNoteTokens().flipBlackToken();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("All note tokens have been flipped to white.");
+        }
+    }
+
     public static void printInstructions() {
         System.out.println(
                 "0 : Show possible actions" +
