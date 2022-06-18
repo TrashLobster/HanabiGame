@@ -46,6 +46,10 @@ public class Player {
         return getHand().getCards().size();
     }
 
+    public Card playCard(int cardPosition) {
+        return getHand().dropCard(cardPosition);
+    }
+    
     public void fillHands(int amountOfPlayers, CardDeck deck) {
         int handHasCards = amountOfPlayers == 2 || amountOfPlayers == 3 ? 5 : 4;
         for (int j = handHasCards; j > 0; j--) {
