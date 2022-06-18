@@ -10,6 +10,8 @@ public class GameAttributes {
     private FireworkCollection fireworkCollection;
     private CardDeck deck;
     private CardDeck discardPile;
+    private boolean gameState = true;
+    private int score = 0;
 
     public GameAttributes() {
         initialiseTokens();
@@ -24,6 +26,26 @@ public class GameAttributes {
         this.playerList.setPlayerNames();
         this.playerList.setPlayers();
         this.playerList.fillPlayersHands(deck);
+    }
+
+    public boolean getGameState() {
+        return this.gameState;
+    }
+
+    public void endGame() {
+        this.gameState = false;
+    }
+
+    public int getScore() {
+        return this.score;
+    }
+
+    public void changeScore(int updateScoreBy) {
+        score += updateScoreBy;
+    }
+
+    public Player getPlayer(int playerPosition) {
+        return this.playerList.getPlayers().get(playerPosition);
     }
 
     public PlayerList getPlayerList() {
