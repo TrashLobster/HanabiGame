@@ -3,3 +3,5 @@ unit test/CardTesting.java
 unit test/PlayerTesting.java
 unit test/GameTesting.java
 unit test/TokenTesting.java
+unit test/RoundControllerTesting.java
+unit test/StormTokensTesting.java

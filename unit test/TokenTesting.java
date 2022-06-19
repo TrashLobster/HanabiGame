@@ -1,18 +1,17 @@
+import com.company.StormTokens;
 import com.company.TokenCollection;
 
 public class TokenTesting {
     public static void main(String[] args) {
-        TokenCollection tokens = new TokenCollection(8 );
+        StormTokens tokens = new StormTokens();
         
-        for (boolean token : tokens.getTokens()) {
+        for (int i = 0; i < tokens.getTokens().length; i++) {
             tokens.flipToken(false);
         }    
 
         tokens.flipToken(false);
 
         printTokens(tokens);
-
-
 
     }
 
