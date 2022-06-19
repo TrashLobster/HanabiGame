@@ -27,46 +27,18 @@ public class Main {
             System.out.println(players.get(i).getName() + " : Order of Play " + players.get(i).getOrderOfPlay());
         }
 
-        // initalise players' hand
-        for (int i; i < playerSize; i++) {
-            int handHasCards = playerSize == 2 || playerSize == 3 ? 5 : 4;
-
-            for (int j = handHasCards; j > 0; j--) {
-                Card topCard = shuffledDeck.dropCard(0);
-                players.get(i).addCard(topCard);
-            }
-
-        }
-
         boolean gameOn = true;
         int countdownOfRounds = playerSize + 1;
         int turn = 0;
         while (gameOn) {
             turn++;
             for (int i; i < playerSize; i++) {
-                int score = 0;
                 System.out.println();
                 System.out.println("Turn " + turn);
                 System.out.println(players.get(i).getName() + "'s turn.\nPlease choose one of the following actions:");
-                printInstructions();
-                boolean turnOver = false;
-
-                while (!turnOver) {
-                    boolean hasNextInt = scanner.hasNextInt();
-                    int command = 10;
-                    try {
-                        command = scanner.nextInt();
-                        scanner.nextLine();
-                    } catch (Exception ignored) {
-                    } finally {
-                        if (hasNextInt && command < 10 && command >= 0) {
-
-                        } else {
-                            scanner.nextLine();
-                            System.out.println("Invalid input. Try again.");
-                        }
-                    }
-                }
+                
+                RoundController roundController = new RoundController(game.getPlayer(i), game);
+                roundController.runRound(turn);
 
                 for (Firework firework : fireworkCollection.getFireworks()) {
                     score += firework.getNextValueExpected() - 1;
@@ -138,122 +110,6 @@ public class Main {
                 break;
             default:
                 break;
-        }
-    }
-
-    public static boolean cancelEntry(String input) {
-        if (input.equalsIgnoreCase("cancel")) {
-            System.out.println("You have cancelled. Choose an action.\n");
-            printInstructions();
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean playCard(Player player, FireworkCollection fireworkCollection, CardDeck discardPile,
-            CardDeck cardDeck,
-            NoteTokens noteTokens, StormTokens stormTokens) {
-        while (true) {
-            System.out.println("You currently have " + player.getHandSize() + " cards.");
-            Card cardPlayed = chooseCardFromHand(player);
-            scanner.nextLine();
-            boolean cardAddedToPile = false;
-            if (cardPlayed != null) {
-                System.out.println(cardPlayed);
-                for (Firework firework : fireworkCollection.getFireworks()) {
-                    String fireworkColor = firework.getColor();
-                    String cardColor = cardPlayed.getColour().toString();
-                    int fireworkNextValue = firework.getNextValueExpected();
-                    int cardValue = cardPlayed.getCardValue();
-
-                    if (fireworkColor.equalsIgnoreCase(cardColor) && fireworkNextValue == cardValue) {
-                        firework.addCard(cardPlayed);
-                        cardAddedToPile = true;
-                        System.out.println(cardPlayed + " has been added to the fireworks stack.");
-                        fireworkCompletedReward(firework, noteTokens);
-                    }
-                }
-                if (!cardAddedToPile) {
-                    discardPile.addCard(cardPlayed);
-                    stormTokens.flipStormTokens();
-                    System.out.println(cardPlayed + " has been sent to the discard pile.");
-                }
-                addCardToHand(player, cardDeck);
-                return true;
-            } else {
-                System.out.println("Incorrect selection. Please try again.");
-            }
-        }
-    }
-
-    public static void fireworkCompletedReward(Firework firework, NoteTokens noteTokens) {
-        if (firework.checkCompletedStatus()) {
-            System.out.println("The " + firework.getColor() + " is completed.");
-            if (noteTokens.getBlackToken() > 0) {
-                noteTokens.flipBlackToken();
-            }
-        }
-    }
-
-    public static void addCardToHand(Player player, CardDeck deck) {
-        if (deck.size() != 0) {
-            player.addCard(deck.dropCard(0));
-        }
-    }
-
-    public static Card chooseCardFromHand(Player player) {
-        int cardPosition = 0;
-        boolean validChoice = false;
-        if (player.getHandSize() != 0) {
-            System.out.println("Which card do you want to play?");
-            while (!validChoice) {
-                boolean hasNextInt = scanner.hasNextInt();
-                try {
-                    cardPosition = scanner.nextInt();
-                } catch (Exception ignored) {
-                } finally {
-                    if (hasNextInt && cardPosition < player.getHandSize() && cardPosition >= 0) {
-                        validChoice = true;
-                    } else {
-                        scanner.nextLine();
-                        System.out.println("Invalid input. Try again.");
-                    }
-                }
-            }
-        }
-        return player.playCard(cardPosition);
-    }
-
-    public static void printPlayersHands(Player currentPlayer, List<Player> playerList) {
-        for (Player playerInGame : playerList) {
-            if (!playerInGame.equals(currentPlayer)) {
-                System.out.println(playerInGame.getName() + "\n" + playerInGame.printHand());
-            }
-        }
-    }
-
-    public static void viewHintsGiven(Player player) {
-        for (String hint : player.getHintReceived()) {
-            System.out.println(hint);
-            System.out.println();
-        }
-        if (player.getHintReceived().isEmpty()) {
-            System.out.println("You have not yet received a hint.");
-        }
-    }
-
-    public static boolean discardCard(Player player, CardDeck discardPile, NoteTokens noteTokens, CardDeck deck) {
-        if (noteTokens.flipBlackToken()) {
-            Card cardDiscarded = chooseCardFromHand(player);
-            discardPile.addCard(cardDiscarded);
-            System.out.println(cardDiscarded.toString() + " has been discarded.");
-            addCardToHand(player, deck);
-            return true;
-        } else {
-            System.out
-                    .println("You cannot discard a card. You don't have a token to flip." + "\n\nTry another action.");
-            printInstructions();
-            return false;
         }
     }
 }
