@@ -22,10 +22,20 @@ public class GameAttributes {
 
     public void initalisePlayers() {
         System.out.println("Welcome to the game, let's get you started.\nHow many players are there?");
-        this.playerList = new PlayerList(scan.nextInt());
-        this.playerList.setPlayerNames();
-        this.playerList.setPlayers();
-        this.playerList.fillPlayersHands(deck);
+        boolean isGameSetUp = false;
+        while (!isGameSetUp) {
+            try {
+                this.playerList = new PlayerList(scan.nextInt());
+                this.playerList.setPlayerNames();
+                this.playerList.setPlayers();
+                this.playerList.fillPlayersHands(deck);
+                isGameSetUp = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Only numbers are acceptable answers! Try again.");
+                scan.next();
+                continue;
+            }
+        }
     }
 
     public boolean getGameState() {
@@ -89,7 +99,7 @@ public class GameAttributes {
     public String checkFireworks() {
         StringBuilder s = new StringBuilder("\nFireworks on display:");
         for (var firework : fireworkCollection.getFireworks()) {
-            s.append(firework.toString());
+            s.append("\n" + firework.toString());
         }
         s.append("\n");
         return s.toString();
