@@ -14,7 +14,6 @@ public class Player {
     final static List<String> VALUES = new ArrayList<>(
             Arrays.asList("1", "2", "3", "4", "5", "one", "two", "three", "four", "five"));
 
-
     public Player(String name, int orderOfPlay) {
         this.name = name;
         this.hand = new Hand();
@@ -49,7 +48,7 @@ public class Player {
     public Card playCard(int cardPosition) {
         return getHand().dropCard(cardPosition);
     }
-    
+
     public void fillHands(int amountOfPlayers, CardDeck deck) {
         int handHasCards = amountOfPlayers == 2 || amountOfPlayers == 3 ? 5 : 4;
         for (int j = handHasCards; j > 0; j--) {
@@ -57,7 +56,7 @@ public class Player {
             addCard(topCard);
         }
     }
-    
+
     public String printHand() {
         return getHand().toString();
     }
@@ -71,7 +70,7 @@ public class Player {
         String typeOfHint = checkHintInput(scan.nextLine());
         String input = "";
         String amount = "0";
-        
+
         switch (typeOfHint.toLowerCase()) {
             case "colour":
                 System.out.println("Please enter the colour:");
@@ -88,7 +87,7 @@ public class Player {
         }
 
         StringBuilder s = new StringBuilder(typeOfHint.toUpperCase());
-        s.append(" : " + input + " (" + amount + "of them)");
+        s.append(" : " + input + " (" + amount + " of them)");
         return s.toString();
     }
 
@@ -102,9 +101,9 @@ public class Player {
 
         while (!validHint) {
             if (hintInput.equalsIgnoreCase("colour") || hintInput.equalsIgnoreCase("number")) {
-                    validHint = true;
+                validHint = true;
             }
-            if(!validHint) {
+            if (!validHint) {
                 System.out.println("Invalid type of hint. Please choose another one:");
                 hintInput = scan.nextLine();
             }
@@ -121,7 +120,7 @@ public class Player {
                     validColour = true;
                 }
             }
-            if(!validColour) {
+            if (!validColour) {
                 System.out.println("Invalid colour. Please input another colour:");
                 colourInput = scan.nextLine();
             }
@@ -139,7 +138,7 @@ public class Player {
                     continue;
                 }
             }
-            if(!validValue) {
+            if (!validValue) {
                 System.out.println("Invalid value. Please input another value:");
                 valueInput = scan.nextLine();
             }
@@ -147,7 +146,7 @@ public class Player {
         return valueInput;
     }
 
-    public String printHint() {
+    public String hintAsString() {
         StringBuilder s = new StringBuilder("Hints:");
         if (hintReceived.size() == 0) {
             s.append("\nThere were no hints given");

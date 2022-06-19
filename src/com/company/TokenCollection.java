@@ -48,8 +48,13 @@ public abstract class TokenCollection {
 
     public void flipToken(boolean choice) throws ArrayIndexOutOfBoundsException{
         int index = findIndexOfFirstInstanceOfToken(choice);
-    
-        tokens[index] = !tokens[index];
+        
+        if (index == -1) {
+            throw new ArrayIndexOutOfBoundsException();
+        } else {
+            tokens[index] = !tokens[index];
+        }
+        
     }
 
 }

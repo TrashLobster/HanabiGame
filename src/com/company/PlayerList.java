@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,7 +20,7 @@ public class PlayerList {
     public PlayerNames getPlayerNames() {
         return playerNames;
     }
-    
+
     public void setPlayerNames() {
         this.playerNames.setPlayerNames(numberOfPlayers);
     }
@@ -48,11 +49,11 @@ public class PlayerList {
     }
 
     public int checkNumberOfPlayers(int numberOfPlayers) {
-        
+
         boolean validAmountOfPlayers = numberOfPlayers >= 2 && numberOfPlayers <= 5 ? true : false;
 
         while (!validAmountOfPlayers) {
-            System.out.println("Invalid input. We need a digit between 2 to 5\n");
+            System.out.println("Invalid input. Please try again. We need a digit between 2 to 5\n");
             try {
                 numberOfPlayers = scan.nextInt();
             } catch (Exception InputMismatchException) {
@@ -62,15 +63,13 @@ public class PlayerList {
 
             if (numberOfPlayers <= 5 && numberOfPlayers >= 2) {
                 validAmountOfPlayers = true;
-            } else {
-                System.out.println("Invalid input. Please try again.\n");
             }
             scan.nextLine();
         }
 
         return numberOfPlayers;
     }
-    
+
     public String checkOtherPlayersHands(Player currentPlayer) {
         StringBuilder s = new StringBuilder("\n");
 
@@ -85,21 +84,23 @@ public class PlayerList {
         return s.toString();
     }
 
-    public Player findPlayerByName(String searchName, Player currentPlayer) {
+    public Player findOtherPlayerByName(String searchName, Player currentPlayer) {
         Player playerFound = currentPlayer;
+        boolean foundMatch = false;
 
-        while(playerFound == currentPlayer) {
+        while (!foundMatch) {
             for (Player player : players) {
                 if (player.getName().equalsIgnoreCase(searchName) && player != currentPlayer) {
                     playerFound = player;
-                } 
+                    foundMatch = true;
+                }
             }
             if (playerFound == currentPlayer) {
                 System.out.println("Please try another name");
                 searchName = scan.nextLine();
             }
         }
-        
+
         return playerFound;
     }
 
