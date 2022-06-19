@@ -15,6 +15,10 @@ public class Card {
         return colour;
     }
 
+    public String getColourAsString() {
+        return colour.toString();
+    }
+
     public int getCardValue() {
         return cardValue;
     }
