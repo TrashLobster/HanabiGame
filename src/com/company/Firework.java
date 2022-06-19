@@ -42,6 +42,9 @@ public class Firework extends CardCollection{
     public String toString() {
         StringBuilder s = new StringBuilder();
         s.append(color).append(": ");
+        if(cards.size() == 0) {
+            s.append("None");
+        }
         for(Card card : cards) {
             s.append(card.getCardValue()).append(" ");
         }

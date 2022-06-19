@@ -35,10 +35,10 @@ public abstract class CardCollection implements CardAction {
     public String toString() {
         StringBuilder s = new StringBuilder();
         if (cards.size() <= 0) {
-            s.append("There are no cards left.");
+            s.append("There are no cards.");
         } else if (cards.size() > 0) {
             for (Card card : cards) {
-                s.append("Position: " + cards.indexOf(card) + " - ");
+                s.append("Position: " + (cards.indexOf(card) + 1) + " - ");
                 s.append(card.toString()).append("\n");
             }
         }
