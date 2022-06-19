@@ -6,20 +6,27 @@ public class RoundController {
     private static final Scanner scan = new Scanner(System.in);
     private Player player;
     private GameAttributes gameAttributes;
+    private boolean turnOver = false;
 
     public RoundController(Player player, GameAttributes gameAttributes) {
         this.player = player;
         this.gameAttributes = gameAttributes;
     }
 
-    public void runRound(int roundNumber) {
-        System.out.println();
-        System.out.println("Turn " + roundNumber);
-        System.out.println(player.getName() + "'s turn.\nPlease choose one of the following actions:");
-        printInstructions();
-        boolean turnOver = false;
+    public GameAttributes getGameAttributes() {
+        return gameAttributes;
+    }
 
-        while (!turnOver) {
+    public boolean getTurnOverStatus() {
+        return turnOver;
+    }
+
+    public void runRound(int roundNumber) {
+        while (!turnOver && gameAttributes.getGameState()) {
+            System.out.println();
+            System.out.println("Turn " + roundNumber);
+            System.out.println(player.getName() + "'s turn.\nPlease choose one of the following actions:");    
+            printInstructions();
             turnOver = respondToPlayerChoice(scan.nextInt());
         }
     }
@@ -44,11 +51,10 @@ public class RoundController {
                 System.out.println(gameAttributes.checkDiscardPile());
                 break;
             case 5:
-                System.out.println(player.printHint());
+                System.out.println(player.hintAsString());
                 break;
             case 6:
                 giveHint();
-                turnOver = true;
                 break;
             case 7:
                 runDiscardCardProcess();
@@ -64,12 +70,13 @@ public class RoundController {
                 break;
             default:
                 break;
-            
+
         }
         return turnOver;
     }
 
     public void quitGame() {
+        System.out.println("\nYou have quit the game. Goodbye!");
         gameAttributes.endGame();
     }
 
@@ -99,16 +106,17 @@ public class RoundController {
     public void giveHint() {
         try {
             gameAttributes.getNoteTokens().flipWhiteToken();
-            
+
             PlayerList playerList = gameAttributes.getPlayerList();
 
             System.out.println("Which player will you be giving a hint to?\n");
-            String searchName = scan.nextLine();
-            Player targetPlayer = playerList.findPlayerByName(searchName, player);
+            scan.nextLine();
+            Player targetPlayer = playerList.findOtherPlayerByName(scan.nextLine(), player);
 
             System.out.println("What hint will you give them?\n");
             String hint = player.giveHint();
             targetPlayer.receiveHint(hint);
+            turnOver = true;
 
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("You don't have anymore hints to give! All tokens have been flipped.");
@@ -116,10 +124,10 @@ public class RoundController {
     }
 
     public Card chooseCardToPlay() {
-        System.out.println(player.getHand().getCards().toString());
+        System.out.println(player.getHand().toString());
         System.out.println("Which card would you like to play?");
 
-        int cardPosition = checkCardChoice(scan.nextInt());
+        int cardPosition = checkCardChoice(scan.nextInt() - 1);
 
         return player.playCard(cardPosition);
     }
@@ -133,14 +141,13 @@ public class RoundController {
             gameAttributes.getStormTokens().flipStormTokens();
             gameAttributes.getDiscardPile().addCard(cardPlayed);
         }
-        
+
         try {
             Card cardDeckTopCard = gameAttributes.getCardDeck().dropCard();
             player.getHand().addCard(cardDeckTopCard);
-        } catch (Exception e) {
-            // TODO: fix up this part of exceptionc catching - what happens when deck is empty?
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("There are no cards to add to the deck.");
-        }        
+        }
     }
 
     public void runDiscardCardProcess() {
@@ -170,7 +177,7 @@ public class RoundController {
             }
         }
         return false;
-    } 
+    }
 
     public void fireworkCompletedReward() {
         try {
