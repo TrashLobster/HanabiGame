@@ -22,6 +22,19 @@ public class PlayerNames {
         }
     }
 
+    public String[] listOfPlayersWithoutCurrentPlayer(String currentPlayer) {
+        int listLength = this.playerNames.length;
+        String[] newListOfNames = new String[listLength - 1];
+        int pointerLocation = 0;
+        for (String playerName : playerNames) {
+            if (!playerName.equalsIgnoreCase(currentPlayer)) {
+                newListOfNames[pointerLocation] =  playerName;
+                pointerLocation++;
+            }
+        }
+        return newListOfNames;
+    }
+
     public String checkName() {
         boolean isNameValid = false;
         String nameToBeTested = "";
