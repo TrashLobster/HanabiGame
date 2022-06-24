@@ -47,8 +47,6 @@ public class PlayerList {
 
     public int checkNumberOfPlayers() {
         NumberInputQuery numberInputQuery = new NumberInputQuery(5, 2);
-        numberInputQuery.runInputQuery();
-
         return numberInputQuery.convertEntryToInteger();
     }
 
@@ -67,9 +65,8 @@ public class PlayerList {
     }
 
     public Player findOtherPlayerByName(Player currentPlayer) {
-        TextInputQuery textInputQuery = new TextInputQuery(playerNames.listOfPlayersWithoutCurrentPlayer(currentPlayer.getName()));
         System.out.println("Who are you looking for?");
-        textInputQuery.runInputQuery();
+        TextInputQuery textInputQuery = new TextInputQuery(playerNames.listOfPlayersWithoutCurrentPlayer(currentPlayer.getName()));
         String searchName = textInputQuery.getInputReceived();
         Player playerFound = currentPlayer;
         

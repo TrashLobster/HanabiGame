@@ -1,10 +1,8 @@
 package com.company;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class PlayerNames {
-    private static final Scanner scan = new Scanner(System.in); 
     private String[] playerNames;
 
     public PlayerNames(int numberOfPlayers) {
@@ -40,8 +38,14 @@ public class PlayerNames {
         String nameToBeTested = "";
         
         while (!isNameValid) {
-            System.out.println("\nPlease enter the name of a player to add:\n");
-            String name = scan.nextLine();
+            System.out.println("\nPlease enter the name of a player to add:");
+            TextInputQuery textInputQuery = new TextInputQuery();
+            String name = textInputQuery.getInputReceived();
+
+            if (Arrays.asList(this.playerNames).contains(name)) {
+                System.out.println("\nSomeone with this name is already in the game. Use another name!");
+            }
+
             isNameValid = !Arrays.asList(this.playerNames).contains(name);
             nameToBeTested = name;
         }
