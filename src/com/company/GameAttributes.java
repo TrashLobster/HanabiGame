@@ -1,9 +1,6 @@
 package com.company;
 
-import java.util.*;
-
 public class GameAttributes {
-    private static final Scanner scan = new Scanner(System.in);
     private PlayerList playerList;
     private NoteTokens noteTokens;
     private StormTokens stormTokens;
@@ -24,17 +21,11 @@ public class GameAttributes {
         System.out.println("Welcome to the game, let's get you started.\nHow many players are there?");
         boolean isGameSetUp = false;
         while (!isGameSetUp) {
-            try {
-                this.playerList = new PlayerList();
-                this.playerList.setPlayerNames();
-                this.playerList.setPlayers();
-                this.playerList.fillPlayersHands(deck);
-                isGameSetUp = true;
-            } catch (InputMismatchException e) {
-                System.out.println("Only numbers are acceptable answers! Try again.");
-                scan.next();
-                continue;
-            }
+            this.playerList = new PlayerList();
+            this.playerList.setPlayerNames();
+            this.playerList.setPlayers();
+            this.playerList.fillPlayersHands(deck);
+            isGameSetUp = true;
         }
     }
 
@@ -43,6 +34,7 @@ public class GameAttributes {
     }
 
     public void endGame() {
+        System.out.println("\nGame over. Thanks for playing!");
         this.gameOn = false;
     }
 
@@ -50,8 +42,19 @@ public class GameAttributes {
         return this.score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public void changeScore(int updateScoreBy) {
         score += updateScoreBy;
+    }
+
+    public void calculateScore() {
+        setScore(0);
+        for (Firework firework : getFireworkCollection().getFireworks()) {
+            score += firework.getNextValueExpected() - 1;
+        }
     }
 
     public Player getPlayer(int playerPosition) {
