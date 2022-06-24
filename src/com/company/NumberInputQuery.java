@@ -14,7 +14,7 @@ public class NumberInputQuery implements InputQuery{
         this.inputReceived = "";
         this.upperBound = upperBound;
         this.lowerBound = lowerBound;
-        checkIfInputIsNumber();
+        runInputQuery();
     }
 
     public String getInputReceived() {
