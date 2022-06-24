@@ -2,8 +2,6 @@ package com.company;
 
 import java.util.*;
 
-import static com.company.ThreadColour.*;
-
 public class Main {
 
     final static List<String> VALUES = new ArrayList<>(
@@ -25,15 +23,14 @@ public class Main {
             System.out.println(players.get(i).getName() + " : Order of Play " + players.get(i).getOrderOfPlay());
         }
 
-        boolean gameOn = game.getGameState();
         int countdownOfRounds = playerSize + 1;
         int turn = 0;
         int gameScore = game.getScore();
-        while (gameOn) {
+        while (game.getGameOn()) {
             turn++;
             for (int i = 0; i < playerSize; i++) {
                 System.out.println();
-                
+
                 RoundController roundController = new RoundController(game.getPlayer(i), game);
                 roundController.runRound(turn);
 
@@ -47,7 +44,7 @@ public class Main {
                     countdownOfRounds--;
                 }
 
-                if (!gameOn || stormTokens.getLightningTokens() == 3 || countdownOfRounds == 0 || gameScore == 25) {
+                if (stormTokens.getLightningTokens() == 3 || countdownOfRounds == 0 || gameScore == 25) {
                     if (stormTokens.getLightningTokens() == 3) {
                         System.out.println(
                                 "As you turned over the last storm token, the gods delivered their wrath with a storm and put an end to the fireworks.");
@@ -59,7 +56,7 @@ public class Main {
 
                     System.out.println("\nGame over. Thanks for playing!");
 
-                    gameOn = false;
+                    game.endGame();
                     break;
                 }
             }
