@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class CardCollection implements CardAction {
+public abstract class CardCollection implements CardBasicAction {
     protected List<Card> cards;
 
     public CardCollection() {
