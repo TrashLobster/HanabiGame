@@ -5,3 +5,5 @@ unit test/GameTesting.java
 unit test/TokenTesting.java
 unit test/RoundControllerTesting.java
 unit test/StormTokensTesting.java
+unit test/NumberInputQueryTesting.java
+unit test/TextInputQueryTesting.java
