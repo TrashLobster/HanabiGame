@@ -10,7 +10,7 @@ public class GameAttributes {
     private FireworkCollection fireworkCollection;
     private CardDeck deck;
     private CardDeck discardPile;
-    private boolean gameState = true;
+    private boolean gameOn = true;
     private int score = 0;
 
     public GameAttributes() {
@@ -25,7 +25,7 @@ public class GameAttributes {
         boolean isGameSetUp = false;
         while (!isGameSetUp) {
             try {
-                this.playerList = new PlayerList(scan.nextInt());
+                this.playerList = new PlayerList();
                 this.playerList.setPlayerNames();
                 this.playerList.setPlayers();
                 this.playerList.fillPlayersHands(deck);
@@ -38,12 +38,12 @@ public class GameAttributes {
         }
     }
 
-    public boolean getGameState() {
-        return this.gameState;
+    public boolean getGameOn() {
+        return this.gameOn;
     }
 
     public void endGame() {
-        this.gameState = false;
+        this.gameOn = false;
     }
 
     public int getScore() {
@@ -65,7 +65,7 @@ public class GameAttributes {
     public String checkOtherPlayersHands(Player currentPlayer) {
         return playerList.checkOtherPlayersHands(currentPlayer);
     }
-    
+
     public void initialiseTokens() {
         this.noteTokens = new NoteTokens();
         this.stormTokens = new StormTokens();
