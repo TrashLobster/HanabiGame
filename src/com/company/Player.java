@@ -3,10 +3,8 @@ package com.company;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class Player {
-    private static final Scanner scan = new Scanner(System.in);
     private final String name;
     private Hand hand;
     private final int orderOfPlay;
@@ -66,20 +64,19 @@ public class Player {
     }
 
     public String giveHint() {
-        System.out.println("Are you giving a colour hint or a number hint?");
-        String typeOfHint = checkHintInput(scan.nextLine());
+        String typeOfHint = checkHintInput();
         String input = "";
         String amount = "0";
 
         switch (typeOfHint.toLowerCase()) {
             case "colour":
                 System.out.println("Please enter the colour:");
-                input = checkColourInput(scan.nextLine());
+                input = checkColourInput();
                 amount = getHintAmount();
                 break;
             case "number":
                 System.out.println("Please enter the value: ");
-                input = checkValueInput(scan.nextLine());
+                input = checkValueInput();
                 amount = getHintAmount();
                 break;
             default:
@@ -92,59 +89,33 @@ public class Player {
     }
 
     public String getHintAmount() {
+        // not sorting out whether there should be 5 cards or 4 cards in hand for each person
         System.out.println("How many of them are there?");
-        return scan.nextLine();
+        NumberInputQuery numberInputQuery = new NumberInputQuery(5, 0);
+        return numberInputQuery.getInputReceived();
     }
 
-    public String checkHintInput(String hintInput) {
-        TextInputQuery textInputQuery = new TextInputQuery({"colour", "number"});
-        boolean validHint = false;
-
-        while (!validHint) {
-            if (hintInput.equalsIgnoreCase("colour") || hintInput.equalsIgnoreCase("number")) {
-                validHint = true;
-            }
-            if (!validHint) {
-                System.out.println("Invalid type of hint. Please choose another one:");
-                hintInput = scan.nextLine();
-            }
-        }
-        return hintInput;
+    public String checkHintInput() {
+        System.out.println("Are you giving a colour hint or a number hint?");
+        String[] acceptableWords = {"colour", "number"};
+        TextInputQuery textInputQuery = new TextInputQuery(acceptableWords);
+        return textInputQuery.getInputReceived();
     }
 
-    public String checkColourInput(String colourInput) {
-        boolean validColour = false;
-
-        while (!validColour) {
-            for (var colour : Colour.values()) {
-                if (colour.toString().equalsIgnoreCase(colourInput)) {
-                    validColour = true;
-                }
-            }
-            if (!validColour) {
-                System.out.println("Invalid colour. Please input another colour:");
-                colourInput = scan.nextLine();
-            }
+    public String checkColourInput() {
+        Colour[] colours = Colour.values();
+        String[] colourStringList = new String[colours.length];
+        for (int i=0; i<Colour.values().length; i++) {
+            colourStringList[i] = colours[i].name();
         }
-        return colourInput;
+        TextInputQuery textInputQuery = new TextInputQuery(colourStringList);
+        return textInputQuery.getInputReceived();
     }
 
-    public String checkValueInput(String valueInput) {
-        boolean validValue = false;
-
-        while (!validValue) {
-            for (String value : VALUES) {
-                if (value.toString().equalsIgnoreCase(valueInput)) {
-                    validValue = true;
-                    continue;
-                }
-            }
-            if (!validValue) {
-                System.out.println("Invalid value. Please input another value:");
-                valueInput = scan.nextLine();
-            }
-        }
-        return valueInput;
+    public String checkValueInput() {
+        // hardcoded the upperbound and lowerbound
+        NumberInputQuery numberInputQuery = new NumberInputQuery(5, 1);
+        return numberInputQuery.getInputReceived();
     }
 
     public String hintAsString() {
