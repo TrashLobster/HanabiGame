@@ -1,7 +1,9 @@
 package com.company;
 
-public interface CardAction {
+public interface CardBasicAction {
     void addCard(Card card);
+
     int size();
+
     void shuffle();
 }
