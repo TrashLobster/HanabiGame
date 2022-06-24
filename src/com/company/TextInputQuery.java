@@ -5,13 +5,20 @@ import java.util.Scanner;
 public class TextInputQuery implements InputQuery{
     private static final Scanner scan = new Scanner(System.in);
     private String inputReceived;
-    private String[] acceptableWords;
+    private String[] acceptableWords = {};
     private boolean isInputAcceptable;
 
     public TextInputQuery(String[] acceptableWords) {
         this.inputReceived = "";
         this.acceptableWords = acceptableWords;
         this.isInputAcceptable = false;
+        runInputQuery();
+    }
+
+    public TextInputQuery() {
+        this.inputReceived = "";
+        this.isInputAcceptable = false;
+        runInputQueryWithoutComparison();
     }
 
     public String getInputReceived() {
@@ -36,6 +43,12 @@ public class TextInputQuery implements InputQuery{
         }
     }
 
+    public void runInputQueryWithoutComparison() {
+        while(!isInputAcceptable) {
+            checkInput();
+        }
+    }
+
     public void checkInputAgainstAcceptableWords() {
         System.out.println("Please enter an input:");
         enterInput();
@@ -46,8 +59,14 @@ public class TextInputQuery implements InputQuery{
         }
 
         if (!isInputAcceptable) {
-            System.out.println("\nInvalid search name entered. Please try another:");
+            System.out.println("\nInvalid search term entered. Please try another:");
         }
+    }
+
+    public void checkInput() {
+        System.out.println("Please enter an input:");
+        enterInput();
+        accceptInput();
     }
 
     public void enterInput() {
