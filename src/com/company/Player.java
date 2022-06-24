@@ -97,6 +97,7 @@ public class Player {
     }
 
     public String checkHintInput(String hintInput) {
+        TextInputQuery textInputQuery = new TextInputQuery({"colour", "number"});
         boolean validHint = false;
 
         while (!validHint) {

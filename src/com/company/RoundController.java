@@ -22,10 +22,10 @@ public class RoundController {
     }
 
     public void runRound(int roundNumber) {
-        while (!turnOver && gameAttributes.getGameState()) {
+        while (!turnOver && gameAttributes.getGameOn()) {
             System.out.println();
             System.out.println("Turn " + roundNumber);
-            System.out.println(player.getName() + "'s turn.\nPlease choose one of the following actions:");    
+            System.out.println(player.getName() + "'s turn.\nPlease choose one of the following actions:");
             printInstructions();
             turnOver = respondToPlayerChoice(scan.nextInt());
         }
