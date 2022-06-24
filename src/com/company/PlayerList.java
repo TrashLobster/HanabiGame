@@ -1,19 +1,16 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 
 public class PlayerList {
-    private static final Scanner scan = new Scanner(System.in);
     private final int numberOfPlayers;
     private PlayerNames playerNames;
     private List<Player> players;
 
-    public PlayerList(int numberOfPlayers) {
-        this.numberOfPlayers = checkNumberOfPlayers(numberOfPlayers);
-        this.playerNames = new PlayerNames(numberOfPlayers);
+    public PlayerList() {
+        this.numberOfPlayers = setNumberOfPlayers();
+        this.playerNames = new PlayerNames(this.numberOfPlayers);
         this.players = new ArrayList<>();
     }
 
@@ -29,9 +26,9 @@ public class PlayerList {
         return numberOfPlayers;
     }
 
-    public int setNumberOfPlayers(int numberOfPlayers) {
-        numberOfPlayers = checkNumberOfPlayers(numberOfPlayers);
-        return numberOfPlayers;
+    public int setNumberOfPlayers() {
+        int playersAsNumbers = checkNumberOfPlayers();
+        return playersAsNumbers;
     }
 
     public List<Player> getPlayers() {
@@ -48,26 +45,11 @@ public class PlayerList {
         }
     }
 
-    public int checkNumberOfPlayers(int numberOfPlayers) {
+    public int checkNumberOfPlayers() {
+        NumberInputQuery numberInputQuery = new NumberInputQuery(5, 2);
+        numberInputQuery.runInputQuery();
 
-        boolean validAmountOfPlayers = numberOfPlayers >= 2 && numberOfPlayers <= 5 ? true : false;
-
-        while (!validAmountOfPlayers) {
-            System.out.println("Invalid input. Please try again. We need a digit between 2 to 5\n");
-            try {
-                numberOfPlayers = scan.nextInt();
-            } catch (Exception InputMismatchException) {
-                numberOfPlayers = 0;
-                continue;
-            }
-
-            if (numberOfPlayers <= 5 && numberOfPlayers >= 2) {
-                validAmountOfPlayers = true;
-            }
-            scan.nextLine();
-        }
-
-        return numberOfPlayers;
+        return numberInputQuery.convertEntryToInteger();
     }
 
     public String checkOtherPlayersHands(Player currentPlayer) {
@@ -84,23 +66,18 @@ public class PlayerList {
         return s.toString();
     }
 
-    public Player findOtherPlayerByName(String searchName, Player currentPlayer) {
+    public Player findOtherPlayerByName(Player currentPlayer) {
+        TextInputQuery textInputQuery = new TextInputQuery(playerNames.listOfPlayersWithoutCurrentPlayer(currentPlayer.getName()));
+        System.out.println("Who are you looking for?");
+        textInputQuery.runInputQuery();
+        String searchName = textInputQuery.getInputReceived();
         Player playerFound = currentPlayer;
-        boolean foundMatch = false;
-
-        while (!foundMatch) {
-            for (Player player : players) {
-                if (player.getName().equalsIgnoreCase(searchName) && player != currentPlayer) {
-                    playerFound = player;
-                    foundMatch = true;
-                }
-            }
-            if (playerFound == currentPlayer) {
-                System.out.println("Please try another name");
-                searchName = scan.nextLine();
+        
+        for (Player player : players) {
+            if (player.getName().equalsIgnoreCase(searchName)) {
+                playerFound = player;
             }
         }
-
         return playerFound;
     }
 
