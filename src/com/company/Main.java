@@ -18,6 +18,7 @@ public class Main {
         StormTokens stormTokens = game.getStormTokens();
         CardDeck shuffledDeck = game.getCardDeck();
 
+        System.out.println();
         // TODO: turn PlayerList List<Player> into an iterable
         for (int i = 0; i < playerSize; i++) {
             System.out.println(players.get(i).getName() + " : Order of Play " + players.get(i).getOrderOfPlay());
@@ -34,10 +35,7 @@ public class Main {
                 RoundController roundController = new RoundController(game.getPlayer(i), game);
                 roundController.runRound(turn);
 
-                // score recalculated at the end of each turn
-                for (Firework firework : game.getFireworkCollection().getFireworks()) {
-                    gameScore += firework.getNextValueExpected() - 1;
-                }
+                game.calculateScore();
 
                 if (shuffledDeck.size() == 0) {
                     System.out.println("There are no cards left in the deck! Each player has one more turn.");
@@ -48,63 +46,32 @@ public class Main {
                     if (stormTokens.getLightningTokens() == 3) {
                         System.out.println(
                                 "As you turned over the last storm token, the gods delivered their wrath with a storm and put an end to the fireworks.");
-                        gameScore = 0;
+                        game.setScore(0);
                     }
-                    System.out.println("\nYour final score is " + gameScore + ". And...");
-
-                    finalResultAnnouncement(gameScore);
-
-                    System.out.println("\nGame over. Thanks for playing!");
-
                     game.endGame();
                     break;
                 }
             }
         }
+        System.out.println("\nYour final score is " + gameScore + ". And...");
+        finalResultAnnouncement(gameScore);
     }
 
     public static void finalResultAnnouncement(int score) {
-        switch (score) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                System.out.println("Oh dear! The crowd booed.");
-                break;
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
-                System.out.println("Poor! A smattering of applause.");
-                break;
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-                System.out.println("OK! The viewers have seen better.");
-                break;
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-                System.out.println("Good! The audience is pleased.");
-                break;
-            case 21:
-            case 22:
-            case 23:
-            case 24:
-                System.out.println("Very good! The audience is enthusiastic!");
-                break;
-            case 25:
-                System.out.println("Legendary! The audience will never forget this show!");
-                break;
-            default:
-                break;
+        if (score < 0) {
+            System.out.println("Something is wrong. You shouldn't be able to get this score!");
+        } else if (score <= 5) {
+            System.out.println("Oh dear! The crowd booed.");
+        } else if (score <= 10) {
+            System.out.println("Poor! A smattering of applause.");
+        } else if (score <= 15) {
+            System.out.println("OK! The viewers have seen better.");
+        } else if (score <= 20) {
+            System.out.println("Good! The audience is pleased.");
+        } else if (score <= 24) {
+            System.out.println("Very good! The audience is enthusiastic!");
+        } else if (score == 25) {
+            System.out.println("Legendary! The audience will never forget this show!");
         }
     }
 }

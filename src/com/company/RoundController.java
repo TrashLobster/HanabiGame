@@ -22,12 +22,12 @@ public class RoundController {
     }
 
     public void runRound(int roundNumber) {
+        printInstructions();
         while (!turnOver && gameAttributes.getGameOn()) {
-            System.out.println();
-            System.out.println("Turn " + roundNumber);
-            System.out.println(player.getName() + "'s turn.\nPlease choose one of the following actions:");
-            printInstructions();
-            turnOver = respondToPlayerChoice(scan.nextInt());
+            System.out.println("\nTurn " + roundNumber);
+            System.out.println(player.getName() + "'s turn.");
+            NumberInputQuery numberInputQuery = new NumberInputQuery(9, 0);
+            turnOver = respondToPlayerChoice(numberInputQuery.convertEntryToInteger());
         }
     }
 
@@ -55,6 +55,7 @@ public class RoundController {
                 break;
             case 6:
                 giveHint();
+                turnOver = true;
                 break;
             case 7:
                 runDiscardCardProcess();
@@ -78,6 +79,10 @@ public class RoundController {
     public void quitGame() {
         System.out.println("\nYou have quit the game. Goodbye!");
         gameAttributes.endGame();
+    }
+
+    public void endTurn() {
+        turnOver = !turnOver;
     }
 
     public int checkChoice(int choice, int choiceUpperLimit, int choiceLowerLimit) {
@@ -109,14 +114,11 @@ public class RoundController {
 
             PlayerList playerList = gameAttributes.getPlayerList();
 
-            System.out.println("Which player will you be giving a hint to?\n");
-            scan.nextLine();
-            Player targetPlayer = playerList.findOtherPlayerByName(scan.nextLine(), player);
+            Player targetPlayer = playerList.findOtherPlayerByName(player);
 
             System.out.println("What hint will you give them?\n");
             String hint = player.giveHint();
             targetPlayer.receiveHint(hint);
-            turnOver = true;
 
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("You don't have anymore hints to give! All tokens have been flipped.");
@@ -189,16 +191,17 @@ public class RoundController {
 
     public static void printInstructions() {
         System.out.println(
-                "0 : Show possible actions" +
-                        "\n1 : Check tokens" +
-                        "\n2 : View other players' cards" +
-                        "\n3 : View fireworks" +
-                        "\n4 : View discard pile" +
-                        "\n5 : View hints given to you" +
-                        "\n6 : Give a hint" +
-                        "\n7 : Discard a card" +
-                        "\n8 : Play a card" +
-                        "\n9 : Quit the game");
+            "0 : Show possible actions" +
+            "\n1 : Check tokens" +
+            "\n2 : View other players' cards" +
+            "\n3 : View fireworks" +
+            "\n4 : View discard pile" +
+            "\n5 : View hints given to you" +
+            "\n6 : Give a hint" +
+            "\n7 : Discard a card" +
+            "\n8 : Play a card" +
+            "\n9 : Quit the game"
+        );
     }
 
 }
