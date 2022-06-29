@@ -57,10 +57,9 @@ public class PlayerList {
             if (currentPlayer == player) {
                 continue;
             }
-            String message = player.getName() + "\n" + player.printHand() + "\n";
+            String message = player.getName() + "\n" + player.printHand();
             s.append(message);
         }
-        s.append("\n");
         return s.toString();
     }
 
